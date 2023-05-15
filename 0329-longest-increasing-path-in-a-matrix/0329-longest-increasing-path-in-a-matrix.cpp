@@ -26,9 +26,7 @@ public:
         vector<vector<int>>dp(n,vector<int>(m,-1));
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(dp[i][j]==-1){
-                    ans=max(ans,dfs(i,j,n-1,m-1,matrix,dp));
-                }
+                ans=max(ans,dfs(i,j,n-1,m-1,matrix,dp));
             }
         }
         return ans;
