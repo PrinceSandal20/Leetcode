@@ -6,29 +6,31 @@ using namespace std;
 class Solution
 {
 	public:
-	void dfs(int node,vector<int>adj[],vector<int>&vis,stack<int>&st){
-	    vis[node]=1;
-	    for(auto val:adj[node]){
-	        if(!vis[val]){
-	            dfs(val,adj,vis,st);
-	        }
-	    }
-	    st.push(node);
-	}
-	
+	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    vector<int>vis(V,0);
-	    stack<int>st;
+	    vector<int>indeg(V,0),ans;
 	    for(int i=0;i<V;i++){
-	        if(!vis[i]){
-	            dfs(i,adj,vis,st);
+	        for(auto val:adj[i]){
+	            indeg[val]++;
 	        }
 	    }
-	    vector<int>ans;
-	    while(!st.empty()){
-	        ans.push_back(st.top());
-	        st.pop();
+	    queue<int>q;
+	    for(int i=0;i<V;i++){
+	        if(indeg[i]==0){
+	            q.push(i);
+	        }
+	    }
+	    while(!q.empty()){
+	        int node=q.front();
+	        q.pop();
+	        ans.push_back(node);
+	        for(auto val:adj[node]){
+	            indeg[val]--;
+	            if(indeg[val]==0){
+	                q.push(val);
+	            }
+	        }
 	    }
 	    return ans;
 	}
