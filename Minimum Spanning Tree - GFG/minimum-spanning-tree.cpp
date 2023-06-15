@@ -6,30 +6,57 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+	vector<int>parent,rank;
+	int findparent(int node){
+	    if(node==parent[node])
+	    {
+	        return node;
+	    }
+	    return parent[node]=findparent(parent[node]);
+	}
+	void unionb(int u,int v){
+	    int ul_u=findparent(u);
+	    int ul_v=findparent(v);
+	    if(ul_u==ul_v)return ;
+	    if(rank[ul_u]<rank[ul_v]){
+	        parent[ul_u]=ul_v;
+	    }
+	    else if(rank[ul_u]>rank[ul_v]){
+	        parent[ul_v]=ul_u;
+	    }
+	    else{
+	         parent[ul_v]=ul_u;
+	         rank[ul_u]++;
+	    }
+	}
+	
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>minH;
-        vector<int>vis(V,0);
-        minH.push({0,0});
-        int sum=0;
-        while(!minH.empty()){
-            int node=minH.top().second;
-            int wt=minH.top().first;
-            minH.pop();
-            if(!vis[node]){
-                vis[node]=1;
-                sum+=wt;
-                for(auto val:adj[node]){
-                    int v=val[0];
-                    int t=val[1];
-                    if(!vis[v]){
-                        minH.push({t,v});
-                    }
-                }
+        parent.resize(V,0);
+        rank.resize(V,0);
+        for(int i=0;i<V;i++){
+            parent[i]=i;
+        }
+        vector<pair<int,pair<int,int>>>edge;
+        for(int i=0;i<V;i++){
+            for(auto val:adj[i]){
+                int adjnode=val[0];
+                int wt=val[1];
+                edge.push_back({wt,{i,adjnode}});
             }
         }
-        return sum;
+        sort(edge.begin(),edge.end());
+        int ans=0;
+        for(int i=0;i<edge.size();i++){
+            int wt=edge[i].first;
+            int node=edge[i].second.first;
+            int adjnode=edge[i].second.second;
+            if(findparent(node)!=findparent(adjnode)){
+                ans+=wt;
+                unionb(node,adjnode);
+            }
+        }
+        return ans;
     }
 };
 
