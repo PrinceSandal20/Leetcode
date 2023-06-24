@@ -34,13 +34,11 @@ public:
             for(auto val:adj[node]){
                 ind[val]--;
                 if(vis[val]==0 && ind[val]==0){
-                    cout<<val;
                     q.push(val);
                     x1++;
                 }
             }
         }
-        cout<<x1;
         if(x1!=n || edge!=n-1){
             return false;
         }
