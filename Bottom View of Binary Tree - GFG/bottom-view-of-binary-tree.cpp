@@ -96,7 +96,7 @@ Node* buildTree(string str)
 class Solution {
   public:
     vector <int> bottomView(Node *root) {
-        map<int,vector<int>>m;
+        map<int,int>m;
         vector<int>ans;
         queue<pair<Node* ,int>>q;
         q.push({root,0});
@@ -104,7 +104,7 @@ class Solution {
             Node* temp=q.front().first;
             int line=q.front().second;
             q.pop();
-            m[line].push_back(temp->data);
+            m[line]=temp->data;
             if(temp->left){
                 q.push({temp->left,line-1});
             }
@@ -113,8 +113,7 @@ class Solution {
             }
         }
         for(auto val:m){
-            int x=val.second.size()-1;
-            ans.push_back(val.second[x]);
+            ans.push_back(val.second);
         }
         return ans;
     }
