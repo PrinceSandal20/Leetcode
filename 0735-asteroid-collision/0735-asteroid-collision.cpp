@@ -8,10 +8,10 @@ public:
                 st.push(asteroids[i]);
             }
             else{
-                if(!st.empty() && st.top()>0  && st.top()<abs(asteroids[i])){
-                    while(!st.empty() &&  st.top()>0  && st.top()<abs(asteroids[i])){
-                        st.pop();
-                    }
+                if(!st.empty() && st.top()>0 && asteroids[i]<0 && st.top()<abs(asteroids[i])){
+                while(!st.empty() && st.top()>0 && asteroids[i]<0 && st.top()<abs(asteroids[i])){
+                    st.pop();
+                }
                 }
                 if(!st.empty() && st.top()==abs(asteroids[i])){
                     st.pop();
