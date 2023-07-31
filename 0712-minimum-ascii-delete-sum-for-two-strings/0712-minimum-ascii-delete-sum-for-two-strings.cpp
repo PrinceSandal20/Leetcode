@@ -34,6 +34,6 @@ public:
             }
         }
         int lcs=dp[n][m];
-        return char1-lcs+char2-lcs;
+        return char1+char2-2*lcs;
     }
 };
